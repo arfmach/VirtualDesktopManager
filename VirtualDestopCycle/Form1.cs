@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Runtime.InteropServices;
-using WindowsDesktop;
-using GlobalHotKey;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Windows.Input;
+using GlobalHotKey;
+using WindowsDesktop;
 
 namespace VirtualDesktopManager
 {
@@ -20,226 +20,238 @@ namespace VirtualDesktopManager
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        private IList<VirtualDesktop> desktops;
-        private IntPtr[] activePrograms;
+        private IList<VirtualDesktop> _Desktops;
+        private IntPtr[] _ActivePrograms;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
 
-        private readonly HotKeyManager _rightHotkey;
-        private readonly HotKeyManager _leftHotkey;
-        private readonly HotKeyManager _numberHotkey;
+        private readonly HotKeyManager _RightHotkey;
+        private readonly HotKeyManager _LeftHotkey;
+        private readonly HotKeyManager _NumberHotkey;
 
-        private bool closeToTray;
+        private bool _CloseToTray;
 
-        private bool useAltKeySettings;
+        private readonly bool _UseAltKeySettings;
 
         public Form1()
         {
             InitializeComponent();
 
-            handleChangedNumber();
+            HandleChangedNumber();
 
-            closeToTray = true;
+            _CloseToTray = true;
 
-            _rightHotkey = new HotKeyManager();
-            _rightHotkey.KeyPressed += RightKeyManagerPressed;
+            _RightHotkey = new HotKeyManager();
+            _RightHotkey.KeyPressed += RightKeyManagerPressed;
 
-            _leftHotkey = new HotKeyManager();
-            _leftHotkey.KeyPressed += LeftKeyManagerPressed;
+            _LeftHotkey = new HotKeyManager();
+            _LeftHotkey.KeyPressed += LeftKeyManagerPressed;
 
-            _numberHotkey = new HotKeyManager();
-            _numberHotkey.KeyPressed += NumberHotkeyPressed;
+            _NumberHotkey = new HotKeyManager();
+            _NumberHotkey.KeyPressed += NumberHotkeyPressed;
 
             VirtualDesktop.CurrentChanged += VirtualDesktop_CurrentChanged;
             VirtualDesktop.Created += VirtualDesktop_Added;
             VirtualDesktop.Destroyed += VirtualDesktop_Destroyed;
 
-            this.FormClosing += Form1_FormClosing;
+            FormClosing += Form1_FormClosing;
 
-            useAltKeySettings = Properties.Settings.Default.AltHotKey;
-            checkBox1.Checked = useAltKeySettings;
+            _UseAltKeySettings = Properties.Settings.Default.AltHotKey;
+            _CheckBox1.Checked = _UseAltKeySettings;
 
-            listView1.Items.Clear();
-            listView1.Columns.Add("File").Width = 400;
+            _ListView1.Items.Clear();
+            _ListView1.Columns.Add("File").Width = 400;
             foreach (var file in Properties.Settings.Default.DesktopBackgroundFiles)
             {
-                listView1.Items.Add(NewListViewItem(file));
+                _ListView1.Items.Add(NewListViewItem(file));
             }
         }
 
         private void NumberHotkeyPressed(object sender, KeyPressedEventArgs e)
-        {   
+        {
             var index = (int) e.HotKey.Key - (int)Key.D0 - 1;
-            var currentDesktopIndex = getCurrentDesktopIndex();
+            var currentDesktopIndex = GetCurrentDesktopIndex();
 
             if (index == currentDesktopIndex)
             {
                 return;
             }
 
-            if (index > desktops.Count - 1)
+            if (index > _Desktops.Count - 1)
             {
                 return;
             }
-                
-            desktops.ElementAt(index)?.Switch();            
+
+            _Desktops.ElementAt(index)?.Switch();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (closeToTray)
+            if (_CloseToTray)
             {
                 e.Cancel = true;
-                this.Visible = false;
-                this.ShowInTaskbar = false;
-                notifyIcon1.BalloonTipTitle = "Still Running...";
-                notifyIcon1.BalloonTipText = "Right-click on the tray icon to exit.";
-                notifyIcon1.ShowBalloonTip(2000);
+                Visible = false;
+                ShowInTaskbar = false;
+                _NotifyIcon.BalloonTipTitle = "Still Running...";
+                _NotifyIcon.BalloonTipText = "Right-click on the tray icon to exit.";
+                _NotifyIcon.ShowBalloonTip(2000);
             }
         }
 
-        private void handleChangedNumber()
+        private void HandleChangedNumber()
         {
-            desktops = VirtualDesktop.GetDesktops();
-            activePrograms = new IntPtr[desktops.Count];
+            _Desktops = VirtualDesktop.GetDesktops();
+            _ActivePrograms = new IntPtr[_Desktops.Count];
         }
 
         private void VirtualDesktop_Added(object sender, VirtualDesktop e)
         {
-            handleChangedNumber();
+            HandleChangedNumber();
         }
 
         private void VirtualDesktop_Destroyed(object sender, VirtualDesktopDestroyEventArgs e)
         {
-            handleChangedNumber();
+            HandleChangedNumber();
         }
 
         private void VirtualDesktop_CurrentChanged(object sender, VirtualDesktopChangedEventArgs e)
         {
             // 0 == first
-            int currentDesktopIndex = getCurrentDesktopIndex();
+            var currentDesktopIndex = GetCurrentDesktopIndex();
 
-            string pictureFile = PickNthFile(currentDesktopIndex);
+            var pictureFile = PickNthFile(currentDesktopIndex);
             if (pictureFile != null)
             {
                 Native.SetBackground(pictureFile);
             }
 
-            restoreApplicationFocus(currentDesktopIndex);
-            changeTrayIcon(currentDesktopIndex);
+            RestoreApplicationFocus(currentDesktopIndex);
+            ChangeTrayIcon(currentDesktopIndex);
         }
 
-        private string PickNthFile(int currentDesktopIndex)
+        private static string PickNthFile(int currentDesktopIndex)
         {
-            int n = Properties.Settings.Default.DesktopBackgroundFiles.Count;
+            var n = Properties.Settings.Default.DesktopBackgroundFiles.Count;
             if (n == 0)
+            {
                 return null;
-            int index = currentDesktopIndex % n;
+            }
+            var index = currentDesktopIndex % n;
             return Properties.Settings.Default.DesktopBackgroundFiles[index];
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _rightHotkey.Dispose();
-            _leftHotkey.Dispose();
-            _numberHotkey.Dispose();
+            _RightHotkey.Dispose();
+            _LeftHotkey.Dispose();
+            _NumberHotkey.Dispose();
 
-            closeToTray = false;
+            _CloseToTray = false;
 
-            this.Close();
+            Close();
         }
 
-        private void normalHotkeys()
-        {            
+        private void NormalHotkeys()
+        {
             try
             {
-                _rightHotkey.Register(Key.Right, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
-                _leftHotkey.Register(Key.Left, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
+                _RightHotkey.Register(Key.Right, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
+                _LeftHotkey.Register(Key.Left, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
                 RegisterNumberHotkeys(System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
             }
-            catch (Exception err)
+            catch (Exception)
             {
-                notifyIcon1.BalloonTipTitle = "Error setting hotkeys";
-                notifyIcon1.BalloonTipText = "Could not set hotkeys. Please open settings and try the alternate combination.";
-                notifyIcon1.ShowBalloonTip(2000);
+                _NotifyIcon.BalloonTipTitle = "Error setting hotkeys";
+                _NotifyIcon.BalloonTipText = "Could not set hotkeys. Please open settings and try the alternate combination.";
+                _NotifyIcon.ShowBalloonTip(2000);
             }
         }
 
-        private void alternateHotkeys()
+        private void AlternateHotkeys()
         {
             try
             {
-                _rightHotkey.Register(Key.Right, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
-                _leftHotkey.Register(Key.Left, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
+                _RightHotkey.Register(Key.Right, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
+                _LeftHotkey.Register(Key.Left, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
                 RegisterNumberHotkeys(System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
             }
-            catch (Exception err)
+            catch (Exception)
             {
-                notifyIcon1.BalloonTipTitle = "Error setting hotkeys";
-                notifyIcon1.BalloonTipText = "Could not set hotkeys. Please open settings and try the default combination.";
-                notifyIcon1.ShowBalloonTip(2000);
+                _NotifyIcon.BalloonTipTitle = "Error setting hotkeys";
+                _NotifyIcon.BalloonTipText = "Could not set hotkeys. Please open settings and try the default combination.";
+                _NotifyIcon.ShowBalloonTip(2000);
             }
         }
 
         private void RegisterNumberHotkeys(ModifierKeys modifiers)
         {
-            _numberHotkey.Register(Key.D1, modifiers);
-            _numberHotkey.Register(Key.D2, modifiers);
-            _numberHotkey.Register(Key.D3, modifiers);
-            _numberHotkey.Register(Key.D4, modifiers);
-            _numberHotkey.Register(Key.D5, modifiers);
-            _numberHotkey.Register(Key.D6, modifiers);
-            _numberHotkey.Register(Key.D7, modifiers);
-            _numberHotkey.Register(Key.D8, modifiers);
-            _numberHotkey.Register(Key.D9, modifiers);
+            _NumberHotkey.Register(Key.D1, modifiers);
+            _NumberHotkey.Register(Key.D2, modifiers);
+            _NumberHotkey.Register(Key.D3, modifiers);
+            _NumberHotkey.Register(Key.D4, modifiers);
+            _NumberHotkey.Register(Key.D5, modifiers);
+            _NumberHotkey.Register(Key.D6, modifiers);
+            _NumberHotkey.Register(Key.D7, modifiers);
+            _NumberHotkey.Register(Key.D8, modifiers);
+            _NumberHotkey.Register(Key.D9, modifiers);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            labelStatus.Text = "";
+            _LabelStatus.Text = "";
 
-            if (!useAltKeySettings)
-                normalHotkeys();
-            else
-                alternateHotkeys();
-
-            var desktop = initialDesktopState();
-            changeTrayIcon();
-
-            this.Visible = false;
-        }
-
-        private int getCurrentDesktopIndex()
-        {
-            return desktops.IndexOf(VirtualDesktop.Current);
-        }
-
-        private void saveApplicationFocus(int currentDesktopIndex = -1)
-        {
-            IntPtr activeAppWindow = GetForegroundWindow();
-
-            if (currentDesktopIndex == -1)
-                currentDesktopIndex = getCurrentDesktopIndex();
-
-            activePrograms[currentDesktopIndex] = activeAppWindow;
-        }
-
-        private void restoreApplicationFocus(int currentDesktopIndex = -1)
-        {
-            if (currentDesktopIndex == -1)
-                currentDesktopIndex = getCurrentDesktopIndex();
-
-            if (activePrograms[currentDesktopIndex] != null && activePrograms[currentDesktopIndex] != IntPtr.Zero)
+            if (!_UseAltKeySettings)
             {
-                SetForegroundWindow(activePrograms[currentDesktopIndex]);
+                NormalHotkeys();
+            }
+            else
+            {
+                AlternateHotkeys();
+            }
+
+            var desktop = InitialDesktopState();
+            ChangeTrayIcon();
+
+            Visible = false;
+        }
+
+        private int GetCurrentDesktopIndex()
+        {
+            return _Desktops.IndexOf(VirtualDesktop.Current);
+        }
+
+        private void SaveApplicationFocus(int currentDesktopIndex = -1)
+        {
+            var activeAppWindow = GetForegroundWindow();
+
+            if (currentDesktopIndex == -1)
+            {
+                currentDesktopIndex = GetCurrentDesktopIndex();
+            }
+
+            _ActivePrograms[currentDesktopIndex] = activeAppWindow;
+        }
+
+        private void RestoreApplicationFocus(int currentDesktopIndex = -1)
+        {
+            if (currentDesktopIndex == -1)
+            {
+                currentDesktopIndex = GetCurrentDesktopIndex();
+            }
+
+            if (_ActivePrograms[currentDesktopIndex] != null && _ActivePrograms[currentDesktopIndex] != IntPtr.Zero)
+            {
+                SetForegroundWindow(_ActivePrograms[currentDesktopIndex]);
             }
         }
 
-        private void changeTrayIcon(int currentDesktopIndex = -1)
+        private void ChangeTrayIcon(int currentDesktopIndex = -1)
         {
-            if(currentDesktopIndex == -1) 
-                currentDesktopIndex = getCurrentDesktopIndex();
+            if (currentDesktopIndex == -1)
+            {
+                currentDesktopIndex = GetCurrentDesktopIndex();
+            }
 
             var desktopNumber = currentDesktopIndex + 1;
             var desktopNumberString = desktopNumber.ToString();
@@ -248,59 +260,62 @@ namespace VirtualDesktopManager
             var xPlacement = 100;
             var yPlacement = 50;
 
-            if(desktopNumber > 9 && desktopNumber < 100)
+            if (desktopNumber > 9 && desktopNumber < 100)
             {
                 fontSize = 125;
                 xPlacement = 75;
                 yPlacement = 65;
-            } else if(desktopNumber > 99)
+            }
+            else if(desktopNumber > 99)
             {
                 fontSize = 80;
                 xPlacement = 90;
                 yPlacement = 100;
             }
 
-            Bitmap newIcon = Properties.Resources.mainIcoPng;
-            Font desktopNumberFont = new Font("Segoe UI", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            using (var newIcon = Properties.Resources.mainIcoPng)
+            {
+                var desktopNumberFont = new Font("Segoe UI", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+                using (var gr = Graphics.FromImage(newIcon))
+                {
+                    gr.DrawString(desktopNumberString, desktopNumberFont, Brushes.White, xPlacement, yPlacement);
 
-            var gr = Graphics.FromImage(newIcon);
-            gr.DrawString(desktopNumberString, desktopNumberFont, Brushes.White, xPlacement, yPlacement);
+                    var numberedIcon = Icon.FromHandle(newIcon.GetHicon());
+                    _NotifyIcon.Icon = numberedIcon;
 
-            Icon numberedIcon = Icon.FromHandle(newIcon.GetHicon());
-            notifyIcon1.Icon = numberedIcon;
-
-            DestroyIcon(numberedIcon.Handle);
-            desktopNumberFont.Dispose();
-            newIcon.Dispose();
-            gr.Dispose();
+                    DestroyIcon(numberedIcon.Handle);
+                    desktopNumberFont.Dispose();
+                }
+            }
         }
 
-        VirtualDesktop initialDesktopState()
+        private VirtualDesktop InitialDesktopState()
         {
             var desktop = VirtualDesktop.Current;
-            int desktopIndex = getCurrentDesktopIndex();
+            var desktopIndex = GetCurrentDesktopIndex();
 
-            saveApplicationFocus(desktopIndex);
+            SaveApplicationFocus(desktopIndex);
 
             return desktop;
         }
 
-        void RightKeyManagerPressed(object sender, KeyPressedEventArgs e)
+        private void RightKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
-            var desktop = initialDesktopState();
-            
-            if(desktop.GetRight() != null)
+            var desktop = InitialDesktopState();
+
+            if (desktop.GetRight() != null)
             {
                 desktop.GetRight()?.Switch();
-            } else
+            }
+            else
             {
-                desktops.First()?.Switch();
+                _Desktops.First()?.Switch();
             }
         }
 
-        void LeftKeyManagerPressed(object sender, KeyPressedEventArgs e)
+        private void LeftKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
-            var desktop = initialDesktopState();
+            var desktop = InitialDesktopState();
 
             if (desktop.GetLeft() != null)
             {
@@ -308,46 +323,46 @@ namespace VirtualDesktopManager
             }
             else
             {
-                desktops.Last()?.Switch();
+                _Desktops.Last()?.Switch();
             }
         }
 
-        private void openSettings()
+        private void OpenSettings()
         {
-            this.Visible = true;
-            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
-            this.ShowInTaskbar = true;
+            Visible = true;
+            WindowState = System.Windows.Forms.FormWindowState.Normal;
+            ShowInTaskbar = true;
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openSettings();
+            OpenSettings();
         }
 
-        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            openSettings();
+            OpenSettings();
         }
 
-        private void upButton_Click(object sender, EventArgs e)
+        private void UpButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (listView1.SelectedItems.Count > 0)
+                if (_ListView1.SelectedItems.Count > 0)
                 {
-                    ListViewItem selected = listView1.SelectedItems[0];
-                    int indx = selected.Index;
-                    int totl = listView1.Items.Count;
+                    var selected = _ListView1.SelectedItems[0];
+                    var indx = selected.Index;
+                    var totl = _ListView1.Items.Count;
 
                     if (indx == 0)
                     {
-                        listView1.Items.Remove(selected);
-                        listView1.Items.Insert(totl - 1, selected);
+                        _ListView1.Items.Remove(selected);
+                        _ListView1.Items.Insert(totl - 1, selected);
                     }
                     else
                     {
-                        listView1.Items.Remove(selected);
-                        listView1.Items.Insert(indx - 1, selected);
+                        _ListView1.Items.Remove(selected);
+                        _ListView1.Items.Insert(indx - 1, selected);
                     }
                 }
                 else
@@ -356,31 +371,30 @@ namespace VirtualDesktopManager
                         "Item Select", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
             }
         }
 
-        private void downButton_Click(object sender, EventArgs e)
+        private void DownButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (listView1.SelectedItems.Count > 0)
+                if (_ListView1.SelectedItems.Count > 0)
                 {
-                    ListViewItem selected = listView1.SelectedItems[0];
-                    int indx = selected.Index;
-                    int totl = listView1.Items.Count;
+                    var selected = _ListView1.SelectedItems[0];
+                    var indx = selected.Index;
+                    var totl = _ListView1.Items.Count;
 
                     if (indx == totl - 1)
                     {
-                        listView1.Items.Remove(selected);
-                        listView1.Items.Insert(0, selected);
+                        _ListView1.Items.Remove(selected);
+                        _ListView1.Items.Insert(0, selected);
                     }
                     else
                     {
-                        listView1.Items.Remove(selected);
-                        listView1.Items.Insert(indx + 1, selected);
+                        _ListView1.Items.Remove(selected);
+                        _ListView1.Items.Insert(indx + 1, selected);
                     }
                 }
                 else
@@ -389,61 +403,60 @@ namespace VirtualDesktopManager
                         "Item Select", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
-            _rightHotkey.Unregister(Key.Right, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
-            _leftHotkey.Unregister(Key.Left, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
-            _rightHotkey.Unregister(Key.Right, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
-            _leftHotkey.Unregister(Key.Left, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
+            _RightHotkey.Unregister(Key.Right, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
+            _LeftHotkey.Unregister(Key.Left, System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
+            _RightHotkey.Unregister(Key.Right, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
+            _LeftHotkey.Unregister(Key.Left, System.Windows.Input.ModifierKeys.Shift | System.Windows.Input.ModifierKeys.Alt);
 
-            if (checkBox1.Checked)
+            if (_CheckBox1.Checked)
             {
-                alternateHotkeys();
+                AlternateHotkeys();
                 Properties.Settings.Default.AltHotKey = true;
             }
             else
             {
-                normalHotkeys();
+                NormalHotkeys();
                 Properties.Settings.Default.AltHotKey = false;
             }
 
             Properties.Settings.Default.DesktopBackgroundFiles.Clear();
-            foreach (ListViewItem item in listView1.Items)
+            foreach (ListViewItem item in _ListView1.Items)
             {
                 Properties.Settings.Default.DesktopBackgroundFiles.Add(item.Tag.ToString());
             }
 
             Properties.Settings.Default.Save();
-            labelStatus.Text = "Changes were successful.";
+            _LabelStatus.Text = "Changes were successful.";
         }
 
-        private void addFileButton_Click(object sender, EventArgs e)
+        private void AddFileButton_Click(object sender, EventArgs e)
         {
-            openFileDialog1.CheckFileExists = true;
-            openFileDialog1.CheckPathExists = true;
-            openFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 0;
-            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            openFileDialog1.Multiselect = true;
-            openFileDialog1.Title = "Select desktop background image";
-            if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
+            _OpenFileDialog1.CheckFileExists = true;
+            _OpenFileDialog1.CheckPathExists = true;
+            _OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*";
+            _OpenFileDialog1.FilterIndex = 0;
+            _OpenFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            _OpenFileDialog1.Multiselect = true;
+            _OpenFileDialog1.Title = "Select desktop background image";
+            if (_OpenFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
-                foreach (string file in openFileDialog1.FileNames)
+                foreach (string file in _OpenFileDialog1.FileNames)
                 {
-                    listView1.Items.Add(NewListViewItem(file));
+                    _ListView1.Items.Add(NewListViewItem(file));
                 }
             }
         }
 
         private static ListViewItem NewListViewItem(string file)
         {
-            return new ListViewItem()
-            {
+            return new ListViewItem {
                 Text = Path.GetFileName(file),
                 ToolTipText = file,
                 Name = Path.GetFileName(file),
@@ -451,17 +464,17 @@ namespace VirtualDesktopManager
             };
         }
 
-        private void removeButton_Click(object sender, EventArgs e)
+        private void RemoveButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (listView1.SelectedItems.Count > 0)
+                if (_ListView1.SelectedItems.Count > 0)
                 {
-                    ListViewItem selected = listView1.SelectedItems[0];
-                    listView1.Items.Remove(selected);
+                    var selected = _ListView1.SelectedItems[0];
+                    _ListView1.Items.Remove(selected);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

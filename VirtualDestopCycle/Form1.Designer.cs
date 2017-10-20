@@ -5,7 +5,7 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer _Components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -13,9 +13,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (_Components != null))
             {
-                components.Dispose();
+                _Components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -28,214 +28,214 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this._Components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.removeButton = new System.Windows.Forms.Button();
-            this.downButton = new System.Windows.Forms.Button();
-            this.upButton = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.addFileButton = new System.Windows.Forms.Button();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.contextMenuStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this._NotifyIcon = new System.Windows.Forms.NotifyIcon(this._Components);
+            this._ContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this._Components);
+            this._SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._CheckBox1 = new System.Windows.Forms.CheckBox();
+            this._GroupBox1 = new System.Windows.Forms.GroupBox();
+            this._RemoveButton = new System.Windows.Forms.Button();
+            this._DownButton = new System.Windows.Forms.Button();
+            this._UpButton = new System.Windows.Forms.Button();
+            this._ListView1 = new System.Windows.Forms.ListView();
+            this._AddFileButton = new System.Windows.Forms.Button();
+            this._SaveButton = new System.Windows.Forms.Button();
+            this._PictureBox1 = new System.Windows.Forms.PictureBox();
+            this._LabelStatus = new System.Windows.Forms.Label();
+            this._OpenFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this._ContextMenuStrip1.SuspendLayout();
+            this._GroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._PictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
-            this.notifyIcon1.Icon = global::VirtualDesktopManager.Properties.Resources.mainIco;
-            this.notifyIcon1.Text = "Virtual Desktop Manager";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            this._NotifyIcon.ContextMenuStrip = this._ContextMenuStrip1;
+            this._NotifyIcon.Icon = global::VirtualDesktopManager.Properties.Resources.mainIco;
+            this._NotifyIcon.Text = "Virtual Desktop Manager";
+            this._NotifyIcon.Visible = true;
+            this._NotifyIcon.DoubleClick += new System.EventHandler(this.NotifyIcon_DoubleClick);
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 48);
+            this._ContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
+            this._ContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._SettingsToolStripMenuItem,
+            this._ExitToolStripMenuItem});
+            this._ContextMenuStrip1.Name = "contextMenuStrip1";
+            this._ContextMenuStrip1.Size = new System.Drawing.Size(117, 48);
             // 
             // settingsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this._SettingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this._SettingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this._SettingsToolStripMenuItem.Text = "Settings";
+            this._SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this._ExitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this._ExitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this._ExitToolStripMenuItem.Text = "Exit";
+            this._ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(14, 54);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(353, 21);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Use alternate key combination (Shift+Alt+Left/Right)";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this._CheckBox1.AutoSize = true;
+            this._CheckBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._CheckBox1.ForeColor = System.Drawing.Color.White;
+            this._CheckBox1.Location = new System.Drawing.Point(14, 54);
+            this._CheckBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._CheckBox1.Name = "checkBox1";
+            this._CheckBox1.Size = new System.Drawing.Size(353, 21);
+            this._CheckBox1.TabIndex = 1;
+            this._CheckBox1.Text = "Use alternate key combination (Shift+Alt+Left/Right)";
+            this._CheckBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._CheckBox1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this._GroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.BackColor = System.Drawing.Color.Black;
-            this.groupBox1.Controls.Add(this.removeButton);
-            this.groupBox1.Controls.Add(this.downButton);
-            this.groupBox1.Controls.Add(this.upButton);
-            this.groupBox1.Controls.Add(this.listView1);
-            this.groupBox1.Controls.Add(this.addFileButton);
-            this.groupBox1.Controls.Add(this.saveButton);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(8, 9);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.groupBox1.Size = new System.Drawing.Size(593, 347);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Settings";
+            this._GroupBox1.BackColor = System.Drawing.Color.Black;
+            this._GroupBox1.Controls.Add(this._RemoveButton);
+            this._GroupBox1.Controls.Add(this._DownButton);
+            this._GroupBox1.Controls.Add(this._UpButton);
+            this._GroupBox1.Controls.Add(this._ListView1);
+            this._GroupBox1.Controls.Add(this._AddFileButton);
+            this._GroupBox1.Controls.Add(this._SaveButton);
+            this._GroupBox1.Controls.Add(this._CheckBox1);
+            this._GroupBox1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._GroupBox1.ForeColor = System.Drawing.Color.White;
+            this._GroupBox1.Location = new System.Drawing.Point(8, 9);
+            this._GroupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._GroupBox1.Name = "groupBox1";
+            this._GroupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._GroupBox1.Size = new System.Drawing.Size(593, 347);
+            this._GroupBox1.TabIndex = 3;
+            this._GroupBox1.TabStop = false;
+            this._GroupBox1.Text = "Settings";
             // 
             // removeButton
             // 
-            this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeButton.BackColor = System.Drawing.Color.Black;
-            this.removeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeButton.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.removeButton.ForeColor = System.Drawing.Color.White;
-            this.removeButton.Location = new System.Drawing.Point(175, 282);
-            this.removeButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(144, 37);
-            this.removeButton.TabIndex = 7;
-            this.removeButton.Text = "Remove file";
-            this.removeButton.UseVisualStyleBackColor = false;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            this._RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._RemoveButton.BackColor = System.Drawing.Color.Black;
+            this._RemoveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._RemoveButton.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this._RemoveButton.ForeColor = System.Drawing.Color.White;
+            this._RemoveButton.Location = new System.Drawing.Point(175, 282);
+            this._RemoveButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._RemoveButton.Name = "removeButton";
+            this._RemoveButton.Size = new System.Drawing.Size(144, 37);
+            this._RemoveButton.TabIndex = 7;
+            this._RemoveButton.Text = "Remove file";
+            this._RemoveButton.UseVisualStyleBackColor = false;
+            this._RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // downButton
             // 
-            this.downButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.downButton.BackColor = System.Drawing.Color.Black;
-            this.downButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.downButton.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.downButton.ForeColor = System.Drawing.Color.White;
-            this.downButton.Location = new System.Drawing.Point(539, 188);
-            this.downButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.downButton.Name = "downButton";
-            this.downButton.Size = new System.Drawing.Size(41, 37);
-            this.downButton.TabIndex = 6;
-            this.downButton.Text = "â";
-            this.downButton.UseVisualStyleBackColor = false;
-            this.downButton.Click += new System.EventHandler(this.downButton_Click);
+            this._DownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._DownButton.BackColor = System.Drawing.Color.Black;
+            this._DownButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._DownButton.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this._DownButton.ForeColor = System.Drawing.Color.White;
+            this._DownButton.Location = new System.Drawing.Point(539, 188);
+            this._DownButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._DownButton.Name = "downButton";
+            this._DownButton.Size = new System.Drawing.Size(41, 37);
+            this._DownButton.TabIndex = 6;
+            this._DownButton.Text = "â";
+            this._DownButton.UseVisualStyleBackColor = false;
+            this._DownButton.Click += new System.EventHandler(this.DownButton_Click);
             // 
             // upButton
             // 
-            this.upButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.upButton.BackColor = System.Drawing.Color.Black;
-            this.upButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.upButton.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.upButton.ForeColor = System.Drawing.Color.White;
-            this.upButton.Location = new System.Drawing.Point(539, 128);
-            this.upButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.upButton.Name = "upButton";
-            this.upButton.Size = new System.Drawing.Size(41, 37);
-            this.upButton.TabIndex = 5;
-            this.upButton.Text = "á";
-            this.upButton.UseVisualStyleBackColor = false;
-            this.upButton.Click += new System.EventHandler(this.upButton_Click);
+            this._UpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._UpButton.BackColor = System.Drawing.Color.Black;
+            this._UpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._UpButton.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this._UpButton.ForeColor = System.Drawing.Color.White;
+            this._UpButton.Location = new System.Drawing.Point(539, 128);
+            this._UpButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._UpButton.Name = "upButton";
+            this._UpButton.Size = new System.Drawing.Size(41, 37);
+            this._UpButton.TabIndex = 5;
+            this._UpButton.Text = "á";
+            this._UpButton.UseVisualStyleBackColor = false;
+            this._UpButton.Click += new System.EventHandler(this.UpButton_Click);
             // 
             // listView1
             // 
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this._ListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(14, 98);
-            this.listView1.Name = "listView1";
-            this.listView1.ShowGroups = false;
-            this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(508, 168);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this._ListView1.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this._ListView1.HideSelection = false;
+            this._ListView1.Location = new System.Drawing.Point(14, 98);
+            this._ListView1.Name = "listView1";
+            this._ListView1.ShowGroups = false;
+            this._ListView1.ShowItemToolTips = true;
+            this._ListView1.Size = new System.Drawing.Size(508, 168);
+            this._ListView1.TabIndex = 4;
+            this._ListView1.UseCompatibleStateImageBehavior = false;
+            this._ListView1.View = System.Windows.Forms.View.Details;
             // 
             // addFileButton
             // 
-            this.addFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addFileButton.BackColor = System.Drawing.Color.Black;
-            this.addFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addFileButton.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.addFileButton.ForeColor = System.Drawing.Color.White;
-            this.addFileButton.Location = new System.Drawing.Point(14, 282);
-            this.addFileButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.addFileButton.Name = "addFileButton";
-            this.addFileButton.Size = new System.Drawing.Size(144, 37);
-            this.addFileButton.TabIndex = 3;
-            this.addFileButton.Text = "Add background";
-            this.addFileButton.UseVisualStyleBackColor = false;
-            this.addFileButton.Click += new System.EventHandler(this.addFileButton_Click);
+            this._AddFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._AddFileButton.BackColor = System.Drawing.Color.Black;
+            this._AddFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._AddFileButton.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this._AddFileButton.ForeColor = System.Drawing.Color.White;
+            this._AddFileButton.Location = new System.Drawing.Point(14, 282);
+            this._AddFileButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._AddFileButton.Name = "addFileButton";
+            this._AddFileButton.Size = new System.Drawing.Size(144, 37);
+            this._AddFileButton.TabIndex = 3;
+            this._AddFileButton.Text = "Add background";
+            this._AddFileButton.UseVisualStyleBackColor = false;
+            this._AddFileButton.Click += new System.EventHandler(this.AddFileButton_Click);
             // 
             // saveButton
             // 
-            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.BackColor = System.Drawing.Color.Black;
-            this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveButton.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.saveButton.ForeColor = System.Drawing.Color.White;
-            this.saveButton.Location = new System.Drawing.Point(477, 45);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(103, 37);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this._SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._SaveButton.BackColor = System.Drawing.Color.Black;
+            this._SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._SaveButton.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this._SaveButton.ForeColor = System.Drawing.Color.White;
+            this._SaveButton.Location = new System.Drawing.Point(477, 45);
+            this._SaveButton.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._SaveButton.Name = "saveButton";
+            this._SaveButton.Size = new System.Drawing.Size(103, 37);
+            this._SaveButton.TabIndex = 2;
+            this._SaveButton.Text = "Save";
+            this._SaveButton.UseVisualStyleBackColor = false;
+            this._SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 363);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(171, 76);
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            this._PictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._PictureBox1.Location = new System.Drawing.Point(8, 363);
+            this._PictureBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this._PictureBox1.Name = "pictureBox1";
+            this._PictureBox1.Size = new System.Drawing.Size(171, 76);
+            this._PictureBox1.TabIndex = 4;
+            this._PictureBox1.TabStop = false;
             // 
             // labelStatus
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.labelStatus.Location = new System.Drawing.Point(184, 363);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(0, 17);
-            this.labelStatus.TabIndex = 5;
+            this._LabelStatus.AutoSize = true;
+            this._LabelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this._LabelStatus.Location = new System.Drawing.Point(184, 363);
+            this._LabelStatus.Name = "labelStatus";
+            this._LabelStatus.Size = new System.Drawing.Size(0, 17);
+            this._LabelStatus.TabIndex = 5;
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this._OpenFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -243,9 +243,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(609, 451);
-            this.Controls.Add(this.labelStatus);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this._LabelStatus);
+            this.Controls.Add(this._PictureBox1);
+            this.Controls.Add(this._GroupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -257,10 +257,10 @@
             this.Text = "Virtual Desktop Manager";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this._ContextMenuStrip1.ResumeLayout(false);
+            this._GroupBox1.ResumeLayout(false);
+            this._GroupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._PictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,21 +270,21 @@
 
 
 
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label labelStatus;
-        private System.Windows.Forms.Button addFileButton;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Button downButton;
-        private System.Windows.Forms.Button upButton;
-        private System.Windows.Forms.Button removeButton;
+        private System.Windows.Forms.NotifyIcon _NotifyIcon;
+        private System.Windows.Forms.ContextMenuStrip _ContextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem _ExitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem _SettingsToolStripMenuItem;
+        private System.Windows.Forms.CheckBox _CheckBox1;
+        private System.Windows.Forms.GroupBox _GroupBox1;
+        private System.Windows.Forms.Button _SaveButton;
+        private System.Windows.Forms.PictureBox _PictureBox1;
+        private System.Windows.Forms.Label _LabelStatus;
+        private System.Windows.Forms.Button _AddFileButton;
+        private System.Windows.Forms.OpenFileDialog _OpenFileDialog1;
+        private System.Windows.Forms.ListView _ListView1;
+        private System.Windows.Forms.Button _DownButton;
+        private System.Windows.Forms.Button _UpButton;
+        private System.Windows.Forms.Button _RemoveButton;
     }
 }
 
